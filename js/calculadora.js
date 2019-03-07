@@ -3,7 +3,7 @@
 var propCal = {
     teclado: document.querySelectorAll('#calculadora ul li'),
     accion: null,
-    caja:document.querySelectorAll('#operaciones'),
+    operaciones:document.querySelectorAll('#operaciones'),
     digito: 0,
     cantidadSigno:0,
     cantidadDecimal:false
@@ -11,11 +11,11 @@ var propCal = {
 
 /**Objeto para definir todos los metodos que vamos a definir en la calculadora */
 var metCal = {
-    inicio: function () {
-        console.log(propCal.teclado);
+    inicio: function() {
+        // console.log(propCal.teclado);
         propCal.teclado.forEach(element => {
             element.addEventListener('click', metCal.oprimirTecla);
-        });
+        })
     },
     oprimirTecla: function (tecla) { 
          console.log(tecla);
@@ -26,7 +26,7 @@ var metCal = {
         metCal.calculadora(propCal.accion,propCal.digito);
     
     },
-    calculadora:function(accion){
+    calculadora:function(accion, digito){
         switch (accion) {
             case 'numero':
             propCal.cantidadSigno=0;
@@ -41,29 +41,36 @@ var metCal = {
                 break;
             case 'signo':
             propCal.cantidadSigno++;
+            console.log(propCal.cantidadSigno);
             if(propCal.cantidadSigno==1){
+                if(propCal.operaciones.innerHTML=0){
+                    propCal.operaciones.innerHTML=0;
+                }
+                else{             
                 propCal.operaciones.innerHTML+=digito;
+                propCal.cantidadDecimal=false;
             }
+        }
             
             console.log(accion);
             break;
             case 'decimal':
-            if(!propCal.cantidadDecimal){
+            if(!propCal.cantidadDecimal && propCal.cantidadSigno!=1){
                 propCal.operaciones.innerHTML+=digito;
+                propCal.cantidadDecimal=true;
             }
                 console.log(accion)
                 break;
             case 'igual':
-                console.log(accion)
-                break;
+            propCal.operaciones.innerHTML=eval(propCal.operaciones.innerHTML);
+                console.log(accion);
             default:
                 break;
         }
     },
-    borrar:function();
+    borrar:function(){
     propCal.operaciones.innerHTML=0;
 
-
-
-
+}
+}
 metCal.inicio();
